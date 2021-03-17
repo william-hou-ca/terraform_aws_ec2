@@ -61,7 +61,7 @@ resource "aws_instance" "web" {
 
   #optional parametres
   associate_public_ip_address = true
-  key_name = "key-hr123000" #key paire name
+  key_name = "key-hr123000" #key paire name exists in aws.
 
   vpc_security_group_ids = data.aws_security_groups.default_sg.ids
 
@@ -143,5 +143,16 @@ resource "aws_network_interface" "second_eni" {
     device_index = 1
   }
 
+}
+
+###########################################################################
+#
+# add eip to the primary network interface of the ec2 instance
+#
+###########################################################################
+
+resource "aws_eip" "eip" {
+  instance = aws_instance.web.id
+  vpc      = true
 }
 
